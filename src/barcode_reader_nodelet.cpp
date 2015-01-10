@@ -7,7 +7,7 @@ namespace zbar_ros{
 class BarcodeReaderNodelet : public nodelet::Nodelet
 {
 
-private:
+public:
   virtual void onInit()
   {
     nodelet.reset(new ZbarBase(getNodeHandle(), getPrivateNodeHandle()));

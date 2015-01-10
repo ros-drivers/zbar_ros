@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 
-  ros::init(argc, argv, "pointcloud_to_laserscan");
+  ros::init(argc, argv, "barcode_reader");
 
   ros::NodeHandle nh;
   ros::NodeHandle private_nh("~");

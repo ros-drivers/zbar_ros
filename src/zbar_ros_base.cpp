@@ -14,15 +14,17 @@ namespace zbar_ros{
   }
 
   void ZbarBase::connectCb() {
+    ROS_INFO_STREAM("connectCb " << barcode_pub_.getNumSubscribers());
     if (!camera_sub_ && barcode_pub_.getNumSubscribers() > 0) {
-      ROS_DEBUG("Connecting to camera topic.");
+      ROS_INFO("Connecting to camera topic.");
       camera_sub_ = nh_.subscribe("image", 10, &ZbarBase::imageCb, this);
     }
   }
 
   void ZbarBase::disconnectCb() {
+    ROS_INFO_STREAM("disconnectCb " << barcode_pub_.getNumSubscribers());
     if (barcode_pub_.getNumSubscribers() == 0) {
-      ROS_DEBUG("Unsubscribing from camera topic.");
+      ROS_INFO("Unsubscribing from camera topic.");
       camera_sub_.shutdown();
     }
   }

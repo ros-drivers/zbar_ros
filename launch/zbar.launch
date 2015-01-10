@@ -3,11 +3,9 @@
 
     <node pkg="nodelet" type="nodelet" name="zbar_manager"  args="manager"/>
 
-    <node pkg="nodelet" type="nodelet" name="uvc_camera" args="load uvc_camera/CameraNodelet zbar_manager"
-          output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="uvc_camera" args="load uvc_camera/CameraNodelet zbar_manager"/>
 
-    <node pkg="nodelet" type="nodelet" name="barcode_reader" args="load zbar_ros/barcode_reader_nodelet zbar_manager"
-          output="screen">
+    <node pkg="nodelet" type="nodelet" name="barcode_reader" args="load zbar_ros/barcode_reader_nodelet zbar_manager">
         <remap from="image" to="image_raw"/>
     </node>
 
