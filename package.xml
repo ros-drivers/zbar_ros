@@ -2,23 +2,23 @@
 <package>
   <name>zbar_ros</name>
   <version>0.0.0</version>
-  <description>The clearpath_zbar package</description>
+  <description>Lightweight ROS wrapper for Zbar barcode/qrcode reader library (http://zbar.sourceforge
+    .net/)</description>
 
-  <maintainer email="pbovbel@todo.todo">pbovbel</maintainer>
+  <author email="pbovbel@clearpathrobotics.com">Paul Bovbel</author>
+  <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
-  <license>TODO</license>
+  <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>libzbar-dev</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>cv_bridge</build_depend>
   <build_depend>nodelet</build_depend>
-  <build_depend>uvc_camera</build_depend>
-  <run_depend>libzbar</run_depend>
+  <run_depend>libzbar-dev</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>cv_bridge</run_depend>
   <run_depend>nodelet</run_depend>
-  <run_depend>uvc_camera</run_depend>
 
   <export>
     <nodelet plugin="${prefix}/nodelets.xml"/>

@@ -3,7 +3,7 @@ project(zbar_ros)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge tf nodelet)
+find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge tf nodelet roslint)
 
 find_package(Zbar REQUIRED)
 
@@ -25,4 +25,15 @@ target_link_libraries(zbar_ros ${catkin_LIBRARIES} ${ZBAR_LIBRARIES})
 add_executable(barcode_reader src/barcode_reader_node.cpp)
 target_link_libraries(barcode_reader zbar_ros ${catkin_LIBRARIES})
 
-# TODO Install
+roslint_cpp()
+
+install(TARGETS barcode_reader zbar_ros
+	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+
+install(DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
