@@ -11,10 +11,13 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  
   <build_depend>zbar</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>cv_bridge</build_depend>
   <build_depend>nodelet</build_depend>
+  <build_depend>roslint</build_depend>
+
   <run_depend>zbar</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>cv_bridge</run_depend>
