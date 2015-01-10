@@ -19,10 +19,10 @@ include_directories(
   ${ZBAR_INCLUDE_DIRS}
 )
 
-add_library(zbar_ros src/zbar_ros_base.cpp src/barcode_reader_nodelet)
+add_library(zbar_ros src/zbar_ros_base.cpp src/barcode_reader_nodelet.cpp)
 target_link_libraries(zbar_ros ${catkin_LIBRARIES} ${ZBAR_LIBRARIES})
 
 add_executable(barcode_reader src/barcode_reader_node.cpp)
 target_link_libraries(barcode_reader zbar_ros ${catkin_LIBRARIES})
 
-# add_dependencies(test husky_msgs_gencpp)
+# TODO Install
