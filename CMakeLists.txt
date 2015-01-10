@@ -1,11 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(zbar_ros)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-
 find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge tf nodelet roslint)
-
-find_package(Zbar REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS include
@@ -20,7 +16,7 @@ include_directories(
 )
 
 add_library(zbar_ros src/zbar_ros_base.cpp src/barcode_reader_nodelet.cpp)
-target_link_libraries(zbar_ros ${catkin_LIBRARIES} ${ZBAR_LIBRARIES})
+target_link_libraries(zbar_ros zbar ${catkin_LIBRARIES})
 
 add_executable(barcode_reader src/barcode_reader_node.cpp)
 target_link_libraries(barcode_reader zbar_ros ${catkin_LIBRARIES})
