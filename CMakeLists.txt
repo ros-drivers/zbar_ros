@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(zbar_ros)
 
-find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge tf nodelet roslint)
+find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge nodelet roslint)
 
 catkin_package(
   INCLUDE_DIRS include
