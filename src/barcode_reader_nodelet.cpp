@@ -29,23 +29,103 @@
 *
 */
 
-#include "zbar_ros/zbar_ros_base.h"
-#include "nodelet/nodelet.h"
+#include "zbar_ros/barcode_reader_nodelet.h"
 #include "pluginlib/class_list_macros.h"
+#include "std_msgs/String.h"
 
 namespace zbar_ros
 {
 
-  class BarcodeReaderNodelet : public nodelet::Nodelet
+  BarcodeReaderNodelet::BarcodeReaderNodelet()
   {
-  public:
-    virtual void onInit()
-    {
-      nodelet.reset(new ZbarBase(getNodeHandle(), getPrivateNodeHandle()));
-    };
+    scanner_.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
+  }
 
-    boost::shared_ptr<ZbarBase> nodelet;
+  void BarcodeReaderNodelet::onInit()
+  {
+    nh_ = getNodeHandle();
+    private_nh_ = getPrivateNodeHandle();
+
+    barcode_pub_ = nh_.advertise<std_msgs::String>("barcode", 10,
+        boost::bind(&BarcodeReaderNodelet::connectCb, this),
+        boost::bind(&BarcodeReaderNodelet::disconnectCb, this));
+    clean_timer_ = nh_.createTimer(ros::Duration(10.0), boost::bind(&BarcodeReaderNodelet::cleanCb, this));
+    private_nh_.param<double>("throttle_repeated_barcodes", throttle_, 0.0);
   };
+
+  void BarcodeReaderNodelet::connectCb()
+  {
+    if (!camera_sub_ && barcode_pub_.getNumSubscribers() > 0)
+    {
+      NODELET_INFO("Connecting to camera topic.");
+      camera_sub_ = nh_.subscribe("image", 10, &BarcodeReaderNodelet::imageCb, this);
+    }
+  }
+
+  void BarcodeReaderNodelet::disconnectCb()
+  {
+    if (barcode_pub_.getNumSubscribers() == 0)
+    {
+      NODELET_INFO("Unsubscribing from camera topic.");
+      camera_sub_.shutdown();
+    }
+  }
+
+  void BarcodeReaderNodelet::imageCb(const sensor_msgs::ImageConstPtr &image)
+  {
+    cv_bridge::CvImageConstPtr cv_image;
+    cv_image = cv_bridge::toCvShare(image, "mono16");
+
+    zbar::Image zbar_image(cv_image->image.cols, cv_image->image.rows, "Y800", cv_image->image.data, cv_image->image
+        .cols * cv_image->image.rows);
+    scanner_.scan(zbar_image);
+
+    // iterate over all barcode readings from image
+    for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin();
+         symbol != zbar_image.symbol_end();
+         ++symbol)
+    {
+      std::string barcode = symbol->get_data();
+      // verify if repeated barcode throttling is enabled
+      if (throttle_ > 0.0)
+      {
+        // check if barcode has been recorded as seen, and skip detection
+        if (barcode_memory_.count(barcode) > 0)
+        {
+          // check if time reached to forget barcode
+          if (ros::Time::now() > barcode_memory_.at(barcode))
+          {
+            NODELET_INFO("Memory timed out for this code, publishing");
+            barcode_memory_.erase(barcode);
+          }
+          else
+          {
+            // if timeout not reached, skip this reading
+            continue;
+          }
+        }
+        // record barcode as seen, with a timeout to 'forget'
+        barcode_memory_.insert(std::make_pair(barcode, ros::Time::now() + ros::Duration(throttle_)));
+      }
+
+      // publish barcode
+      std_msgs::String barcode_string;
+      barcode_string.data = barcode;
+      barcode_pub_.publish(barcode_string);
+    }
+  }
+
+  void BarcodeReaderNodelet::cleanCb()
+  {
+    for ( boost::unordered_map<std::string, ros::Time>::iterator it = barcode_memory_.begin(); it != barcode_memory_.end
+        (); ++it ){
+      if(ros::Time::now() > it->second){
+        NODELET_DEBUG_STREAM("Cleaned " << it->first << " from memory");
+        barcode_memory_.erase(it);
+      }
+    }
+
+  }
 }  // namespace zbar_ros
 
 PLUGINLIB_DECLARE_CLASS(zbar_ros, BarcodeReaderNodelet, zbar_ros::BarcodeReaderNodelet, nodelet::Nodelet);

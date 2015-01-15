@@ -5,7 +5,7 @@
 
     <!-- Example camera launch -->
     <node pkg="nodelet" type="nodelet" name="uvc_camera" args="load uvc_camera/CameraNodelet zbar_manager">
-        <remap from="image" to="image_raw"/>
+        <remap from="image_raw" to="image"/>
     </node>
 
     <node pkg="nodelet" type="nodelet" name="barcode_reader" args="load zbar_ros/barcode_reader_nodelet zbar_manager">

@@ -1,4 +1,4 @@
-<library path="lib/libzbar_ros">
+<library path="lib/libbarcode_reader_nodelet">
 
     <class name="zbar_ros/barcode_reader_nodelet"
            type="zbar_ros::BarcodeReaderNodelet"

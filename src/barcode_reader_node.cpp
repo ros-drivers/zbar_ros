@@ -29,17 +29,19 @@
 *
 */
 
-#include "zbar_ros/zbar_ros_base.h"
+#include <ros/ros.h>
+#include <nodelet/loader.h>
 
-int main(int argc, char *argv[])
-{
-  ros::init(argc, argv, "barcode_reader");
+int main(int argc, char **argv){
+  ros::init(argc, argv, "barcode_reader_node");
 
-  ros::NodeHandle nh;
-  ros::NodeHandle private_nh("~");
-
-  zbar_ros::ZbarBase node(nh, private_nh);
+  nodelet::Loader nodelet;
+  nodelet::M_string remap(ros::names::getRemappings());
+  nodelet::V_string nargv;
+  std::string nodelet_name = ros::this_node::getName();
+  nodelet.load(nodelet_name, "pointcloud_to_laserscan/pointcloud_to_laserscan_nodelet", remap, nargv);
   ros::spin();
 
   return 0;
+
 }

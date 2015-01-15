@@ -29,8 +29,8 @@
 *
 */
 
-#ifndef ZBAR_ROS_ZBAR_ROS_BASE_H
-#define ZBAR_ROS_ZBAR_ROS_BASE_H
+#ifndef ZBAR_ROS_ZBAR_ROS_NODELET_H
+#define ZBAR_ROS_ZBAR_ROS_NODELET_H
 
 #include "ros/ros.h"
 #include "opencv/cv.h"
@@ -38,30 +38,33 @@
 #include "zbar.h"
 #include "boost/unordered_map.hpp"
 #include <string>
+#include "nodelet/nodelet.h"
 
 namespace zbar_ros
 {
 
-  class ZbarBase
+  class BarcodeReaderNodelet : public nodelet::Nodelet
   {
   public:
-    ZbarBase(ros::NodeHandle nh, ros::NodeHandle private_nh);
+    BarcodeReaderNodelet();
 
   private:
+    virtual void onInit();
     void connectCb();
-
     void disconnectCb();
-
     void imageCb(const sensor_msgs::ImageConstPtr &image);
+    void cleanCb();
 
     ros::NodeHandle nh_, private_nh_;
     ros::Subscriber camera_sub_;
     ros::Publisher barcode_pub_;
+    ros::Timer clean_timer_;
     zbar::ImageScanner scanner_;
     boost::unordered_map<std::string, ros::Time> barcode_memory_;
 
     double throttle_;
   };
+
 }  // namespace zbar_ros
 
-#endif  // ZBAR_ROS_ZBAR_ROS_BASE_H
+#endif  // ZBAR_ROS_ZBAR_ROS_NODELET_H
