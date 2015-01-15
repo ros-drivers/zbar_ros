@@ -8,7 +8,11 @@
         <remap from="image_raw" to="image"/>
     </node>
 
-    <node pkg="nodelet" type="nodelet" name="barcode_reader" args="load zbar_ros/barcode_reader_nodelet zbar_manager">
+    <!--<node pkg="nodelet" type="nodelet" name="barcode_reader" args="load zbar_ros/barcode_reader_nodelet zbar_manager">-->
+        <!--<param name="throttle_repeated_barcodes" type="double" value="2.0"/>-->
+    <!--</node>-->
+
+    <node pkg="zbar_ros" type="barcode_reader_node" name="barcode_reader">
         <param name="throttle_repeated_barcodes" type="double" value="2.0"/>
     </node>
 

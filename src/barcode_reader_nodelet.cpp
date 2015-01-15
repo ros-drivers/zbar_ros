@@ -95,7 +95,7 @@ namespace zbar_ros
           // check if time reached to forget barcode
           if (ros::Time::now() > barcode_memory_.at(barcode))
           {
-            NODELET_INFO("Memory timed out for this code, publishing");
+            NODELET_DEBUG("Memory timed out for barcode, publishing");
             barcode_memory_.erase(barcode);
           }
           else

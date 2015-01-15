@@ -39,7 +39,7 @@ int main(int argc, char **argv){
   nodelet::M_string remap(ros::names::getRemappings());
   nodelet::V_string nargv;
   std::string nodelet_name = ros::this_node::getName();
-  nodelet.load(nodelet_name, "pointcloud_to_laserscan/pointcloud_to_laserscan_nodelet", remap, nargv);
+  nodelet.load(nodelet_name, "zbar_ros/barcode_reader_nodelet", remap, nargv);
   ros::spin();
 
   return 0;
