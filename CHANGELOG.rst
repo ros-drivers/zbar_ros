@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.4 (2015-01-16)
+------------------
 * Style fixes
 * Fix naming and debug messages
 * Update node->nodelet wrapper
