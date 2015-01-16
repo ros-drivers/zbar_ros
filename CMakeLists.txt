@@ -5,14 +5,13 @@ find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge nodelet roslint)
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES zbar_ros
-  CATKIN_DEPENDS nodelet
+  LIBRARIES barcode_reader_nodelet
+  CATKIN_DEPENDS nodelet cv_bridge roscpp
 )
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${ZBAR_INCLUDE_DIRS}
 )
 
 add_library(barcode_reader_nodelet src/barcode_reader_nodelet.cpp)
