@@ -76,14 +76,13 @@ namespace zbar_ros
     cv_bridge::CvImageConstPtr cv_image;
     cv_image = cv_bridge::toCvShare(image, "mono16");
 
-    zbar::Image zbar_image(cv_image->image.cols, cv_image->image.rows, "Y800", cv_image->image.data, cv_image->image
-        .cols * cv_image->image.rows);
+    zbar::Image zbar_image(cv_image->image.cols, cv_image->image.rows, "Y800", cv_image->image.data,
+        cv_image->image.cols * cv_image->image.rows);
     scanner_.scan(zbar_image);
 
     // iterate over all barcode readings from image
     for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin();
-         symbol != zbar_image.symbol_end();
-         ++symbol)
+         symbol != zbar_image.symbol_end(); ++symbol)
     {
       std::string barcode = symbol->get_data();
       // verify if repeated barcode throttling is enabled
@@ -117,9 +116,11 @@ namespace zbar_ros
 
   void BarcodeReaderNodelet::cleanCb()
   {
-    for ( boost::unordered_map<std::string, ros::Time>::iterator it = barcode_memory_.begin(); it != barcode_memory_.end
-        (); ++it ){
-      if(ros::Time::now() > it->second){
+    for (boost::unordered_map<std::string, ros::Time>::iterator it = barcode_memory_.begin();
+         it != barcode_memory_.end(); ++it)
+    {
+      if (ros::Time::now() > it->second)
+      {
         NODELET_DEBUG_STREAM("Cleaned " << it->first << " from memory");
         barcode_memory_.erase(it);
       }
