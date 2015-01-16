@@ -2,6 +2,13 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Style fixes
+* Fix naming and debug messages
+* Update node->nodelet wrapper
+* Contributors: Paul Bovbel
+
 0.0.3 (2015-01-11)
 ------------------
 * remove stray tf in cmake
