@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.5 (2015-03-31)
+------------------
 * Fix nodelets.xml installation
 * Only create timer if throttling enabled
 * Contributors: Paul Bovbel
