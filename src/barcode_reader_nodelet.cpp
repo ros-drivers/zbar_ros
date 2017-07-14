@@ -115,6 +115,8 @@ namespace zbar_ros
       barcode_string.data = barcode;
       barcode_pub_.publish(barcode_string);
     }
+
+    zbar_image.set_data(NULL, 0);
   }
 
   void BarcodeReaderNodelet::cleanCb()
