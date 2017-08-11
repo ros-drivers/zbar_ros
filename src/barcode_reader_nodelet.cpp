@@ -77,7 +77,7 @@ namespace zbar_ros
   void BarcodeReaderNodelet::imageCb(const sensor_msgs::ImageConstPtr &image)
   {
     cv_bridge::CvImageConstPtr cv_image;
-    cv_image = cv_bridge::toCvShare(image, "mono16");
+    cv_image = cv_bridge::toCvShare(image, "mono8");
 
     zbar::Image zbar_image(cv_image->image.cols, cv_image->image.rows, "Y800", cv_image->image.data,
         cv_image->image.cols * cv_image->image.rows);
@@ -115,6 +115,8 @@ namespace zbar_ros
       barcode_string.data = barcode;
       barcode_pub_.publish(barcode_string);
     }
+
+    zbar_image.set_data(NULL, 0);
   }
 
   void BarcodeReaderNodelet::cleanCb()
