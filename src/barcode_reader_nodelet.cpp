@@ -134,4 +134,4 @@ namespace zbar_ros
   }
 }  // namespace zbar_ros
 
-PLUGINLIB_DECLARE_CLASS(zbar_ros, BarcodeReaderNodelet, zbar_ros::BarcodeReaderNodelet, nodelet::Nodelet);
+PLUGINLIB_EXPORT_CLASS(zbar_ros::BarcodeReaderNodelet, nodelet::Nodelet);
