@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2017-12-14)
+------------------
 * Update maintainer
 * Merge pull request `#4 <https://github.com/ros-drivers/zbar_ros/issues/4>`_ from mikaelarguedas/patch-1
   update to use non deprecated pluginlib macro
