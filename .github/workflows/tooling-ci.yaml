@@ -1,9 +1,9 @@
-name: tooling-ci
+name: ci
 
 on: [push, pull_request]
 
 jobs:
-  tooling_ci:
+  ci:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
