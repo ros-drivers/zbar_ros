@@ -28,8 +28,11 @@
 * Please send comments, questions, or patches to code@clearpathrobotics.com
 *
 */
-
 #include "zbar_ros/barcode_reader_nodelet.h"
+
+#include <utility>
+#include <string>
+
 #include "pluginlib/class_list_macros.h"
 #include "std_msgs/String.h"
 
@@ -49,9 +52,10 @@ namespace zbar_ros
     barcode_pub_ = nh_.advertise<std_msgs::String>("barcode", 10,
         boost::bind(&BarcodeReaderNodelet::connectCb, this),
         boost::bind(&BarcodeReaderNodelet::disconnectCb, this));
-    
+
     private_nh_.param<double>("throttle_repeated_barcodes", throttle_, 0.0);
-    if (throttle_ > 0.0){
+    if (throttle_ > 0.0)
+    {
       clean_timer_ = nh_.createTimer(ros::Duration(10.0), boost::bind(&BarcodeReaderNodelet::cleanCb, this));
     }
   };
@@ -91,6 +95,8 @@ namespace zbar_ros
       // verify if repeated barcode throttling is enabled
       if (throttle_ > 0.0)
       {
+        const std::lock_guard<std::mutex> lock(memory_mutex_);
+
         // check if barcode has been recorded as seen, and skip detection
         if (barcode_memory_.count(barcode) > 0)
         {
@@ -121,6 +127,7 @@ namespace zbar_ros
 
   void BarcodeReaderNodelet::cleanCb()
   {
+    const std::lock_guard<std::mutex> lock(memory_mutex_);
     for (boost::unordered_map<std::string, ros::Time>::iterator it = barcode_memory_.begin();
          it != barcode_memory_.end(); ++it)
     {
@@ -130,7 +137,6 @@ namespace zbar_ros
         barcode_memory_.erase(it);
       }
     }
-
   }
 }  // namespace zbar_ros
 
