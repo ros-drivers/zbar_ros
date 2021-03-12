@@ -2,6 +2,13 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Keep tooling CI
+* Update header for newer opencv version
+* Add github action
+* Contributors: Gary Servin, Paul Bovbel
+
 0.1.0 (2017-12-14)
 ------------------
 * Update maintainer
