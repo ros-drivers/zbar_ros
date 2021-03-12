@@ -2,6 +2,11 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Lint and close `#6 <https://github.com/ros-drivers/zbar_ros/issues/6>`_
+* Contributors: Paul Bovbel
+
 0.2.0 (2021-03-12)
 ------------------
 * Keep tooling CI
