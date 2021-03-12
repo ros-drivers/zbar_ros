@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2021-03-12)
+------------------
 * Keep tooling CI
 * Update header for newer opencv version
 * Add github action
