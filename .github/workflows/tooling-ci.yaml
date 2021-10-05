@@ -21,4 +21,4 @@ jobs:
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: zbar_ros
-          target-ros1-distro: ${{ matrix.distro }}
+          target-ros2-distro: ${{ matrix.distro }}
