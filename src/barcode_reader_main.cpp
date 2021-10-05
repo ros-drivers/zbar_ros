@@ -28,46 +28,14 @@
 * Please send comments, questions, or patches to code@clearpathrobotics.com
 *
 */
-#include <string>
-#include <functional>
+
+#include <memory>
 #include "zbar_ros/barcode_reader_node.hpp"
-#include "cv_bridge/cv_bridge.h"
 
-BarcodeReaderNode::BarcodeReaderNode()
-: Node("BarcodeReader")
+int main(int argc, char ** argv)
 {
-  scanner_.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
-
-
-  camera_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-    "image", 10, std::bind(&BarcodeReaderNode::imageCb, this, std::placeholders::_1));
-
-  barcode_pub_ = this->create_publisher<std_msgs::msg::String>("barcode", 10);
-}
-
-void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
-{
-  RCLCPP_DEBUG(get_logger(), "imageCb called!");
-
-  cv_bridge::CvImageConstPtr cv_image;
-  cv_image = cv_bridge::toCvShare(image, "mono8");
-
-  zbar::Image zbar_image(cv_image->image.cols, cv_image->image.rows, "Y800", cv_image->image.data,
-    cv_image->image.cols * cv_image->image.rows);
-  scanner_.scan(zbar_image);
-
-  // iterate over all barcode readings from image
-  for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin();
-    symbol != zbar_image.symbol_end(); ++symbol)
-  {
-    std::string barcode = symbol->get_data();
-    RCLCPP_DEBUG(get_logger(), "barcode with string: %s", barcode.c_str());
-
-    // publish barcode
-    std_msgs::msg::String barcode_string;
-    barcode_string.data = barcode;
-    barcode_pub_->publish(barcode_string);
-  }
-
-  zbar_image.set_data(NULL, 0);
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<BarcodeReaderNode>());
+  rclcpp::shutdown();
+  return 0;
 }

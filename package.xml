@@ -1,29 +1,27 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>zbar_ros</name>
   <version>0.3.0</version>
   <description>Lightweight ROS wrapper for Zbar barcode/qrcode reader library (http://zbar.sourceforge
     .net/)</description>
-
-  <author email="paul@bovbel.com">Paul Bovbel</author>
   <maintainer email="paul@bovbel.com">Paul Bovbel</maintainer>
-
   <license>BSD</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <author email="paul@bovbel.com">Paul Bovbel</author>
 
-  <build_depend>zbar</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>cv_bridge</build_depend>
-  <build_depend>nodelet</build_depend>
-  <build_depend>roslint</build_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <run_depend>zbar</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>cv_bridge</run_depend>
-  <run_depend>nodelet</run_depend>
+  <depend>rclcpp</depend>
+  <depend>zbar</depend>
+  <depend>cv_bridge</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <nodelet plugin="${prefix}/nodelets.xml"/>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

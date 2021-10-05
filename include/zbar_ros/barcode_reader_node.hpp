@@ -28,47 +28,25 @@
 * Please send comments, questions, or patches to code@clearpathrobotics.com
 *
 */
+#ifndef ZBAR_ROS__BARCODE_READER_NODE_HPP_
+#define ZBAR_ROS__BARCODE_READER_NODE_HPP_
 
-#ifndef ZBAR_ROS_BARCODE_READER_NODELET_H
-#define ZBAR_ROS_BARCODE_READER_NODELET_H
+#include "rclcpp/rclcpp.hpp"
+#include "./zbar.h"
+#include "sensor_msgs/msg/image.hpp"
+#include "std_msgs/msg/string.hpp"
 
-#include <mutex>
-#include <string>
-
-#include "boost/unordered_map.hpp"
-#include "cv_bridge/cv_bridge.h"
-#include "nodelet/nodelet.h"
-#include "opencv2/opencv.hpp"
-#include "ros/ros.h"
-#include "zbar.h"
-
-namespace zbar_ros
-{
-
-class BarcodeReaderNodelet : public nodelet::Nodelet
+class BarcodeReaderNode : public rclcpp::Node
 {
 public:
-  BarcodeReaderNodelet();
+  BarcodeReaderNode();
 
 private:
-  virtual void onInit();
-  void connectCb();
-  void disconnectCb();
-  void imageCb(const sensor_msgs::ImageConstPtr &image);
-  void cleanCb();
+  void imageCb(sensor_msgs::msg::Image::ConstSharedPtr msg);
 
-  ros::NodeHandle nh_, private_nh_;
-  ros::Subscriber camera_sub_;
-  ros::Publisher barcode_pub_;
-  ros::Timer clean_timer_;
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr camera_sub_;
+  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr barcode_pub_;
   zbar::ImageScanner scanner_;
-
-  std::mutex memory_mutex_;
-  boost::unordered_map<std::string, ros::Time> barcode_memory_;
-
-  double throttle_;
 };
 
-}  // namespace zbar_ros
-
-#endif  // ZBAR_ROS_BARCODE_READER_NODELET_H
+#endif  // ZBAR_ROS__BARCODE_READER_NODE_HPP_
