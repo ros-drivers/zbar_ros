@@ -47,7 +47,7 @@ BarcodeReaderNode::BarcodeReaderNode()
 
 void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
 {
-  RCLCPP_DEBUG(get_logger(), "imageCb called!");
+  RCLCPP_DEBUG(get_logger(), "Image received on subscribed topic");
 
   cv_bridge::CvImageConstPtr cv_image;
   cv_image = cv_bridge::toCvShare(image, "mono8");
@@ -56,17 +56,22 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
     cv_image->image.cols * cv_image->image.rows);
   scanner_.scan(zbar_image);
 
-  // iterate over all barcode readings from image
-  for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin();
-    symbol != zbar_image.symbol_end(); ++symbol)
-  {
-    std::string barcode = symbol->get_data();
-    RCLCPP_DEBUG(get_logger(), "barcode with string: %s", barcode.c_str());
+  auto it_start = zbar_image.symbol_begin();
+  auto it_end = zbar_image.symbol_end();
+  if (it_start != it_end) {
+    // If there are barcodes in the image, iterate over all barcode readings from image
+    for (zbar::Image::SymbolIterator symbol = it_start; symbol != it_end; ++symbol) {
+      std::string barcode = symbol->get_data();
+      RCLCPP_DEBUG(get_logger(), "Barcode detected with data: '%s'", barcode.c_str());
 
-    // publish barcode
-    std_msgs::msg::String barcode_string;
-    barcode_string.data = barcode;
-    barcode_pub_->publish(barcode_string);
+      // publish barcode
+      RCLCPP_DEBUG(get_logger(), "Publishing data as string");
+      std_msgs::msg::String barcode_string;
+      barcode_string.data = barcode;
+      barcode_pub_->publish(barcode_string);
+    }
+  } else {
+    RCLCPP_DEBUG(get_logger(), "No barcode detected in image");
   }
 
   zbar_image.set_data(NULL, 0);
