@@ -49,6 +49,7 @@ BarcodeReaderNode::BarcodeReaderNode()
     "image", 10, std::bind(&BarcodeReaderNode::imageCb, this, std::placeholders::_1));
 
   barcode_pub_ = this->create_publisher<std_msgs::msg::String>("barcode", 10);
+  barcode_pub_ = this->create_publisher<zbar_ros_interfaces::msg::Symbol>("symbol", 10);
 
   throttle_ = this->declare_parameter<double>("throttle_repeated_barcodes", 0.0);
   RCLCPP_DEBUG(get_logger(), "throttle_repeated_barcodes : %f", throttle_);
@@ -74,9 +75,24 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
   auto it_end = zbar_image.symbol_end();
   if (it_start != it_end) {
     // If there are barcodes in the image, iterate over all barcode readings from image
-    for (zbar::Image::SymbolIterator symbol = it_start; symbol != it_end; ++symbol) {
-      std::string barcode = symbol->get_data();
-      RCLCPP_DEBUG(get_logger(), "Barcode detected with data: '%s'", barcode.c_str());
+    for (zbar::Image::SymbolIterator symbol_it = it_start; symbol_it != it_end; ++symbol_it) {
+      zbar_ros_interfaces::msg::Symbol symbol;
+
+      symbol.data = symbol_it->get_data();
+      RCLCPP_DEBUG(get_logger(), "Barcode detected with data: '%s'", symbol.data.c_str());
+
+      RCLCPP_DEBUG(
+        get_logger(), "Polygon around barcode has %d points", symbol_it->get_location_size());
+      for (zbar::Symbol::PointIterator point_it = symbol_it->point_begin();
+        point_it != symbol_it->point_end();
+        ++point_it)
+      {
+        geometry_msgs::msg::Point point;
+        point.x = (*point_it).x;
+        point.y = (*point_it).y;
+        RCLCPP_DEBUG(get_logger(), "  Point: %d, %d", point.x, point.y);
+        symbol.points.push_back(point);
+      }
 
       // verify if repeated barcode throttling is enabled
       if (throttle_ > 0.0) {
@@ -105,6 +121,10 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
       std_msgs::msg::String barcode_string;
       barcode_string.data = barcode;
       barcode_pub_->publish(barcode_string);
+
+      // publish symbol
+      RCLCPP_DEBUG(get_logger(), "Publishing Symbol");
+      barcode_pub_->publish(symbol);
     }
   } else {
     RCLCPP_DEBUG(get_logger(), "No barcode detected in image");

@@ -52,7 +52,7 @@ Subscriptions:
 * `image` (`sensor_msgs/msg/Image`)
 
 Publisher:
-* `barcode` (`std_msgs/msg/String`)
+* `barcode` (`zbar_ros_interfaces/msg/Symbol`)
 
 
 ## Debugging the barcode_reader node

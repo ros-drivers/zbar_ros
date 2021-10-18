@@ -1,24 +1,20 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>zbar_ros</name>
-  <version>0.4.0</version>
-  <description>Lightweight ROS wrapper for Zbar barcode/qrcode reader library (http://zbar.sourceforge
-    .net/)</description>
+  <name>zbar_ros_interfaces</name>
+  <version>0.0.0</version>
+  <description>Package containing interfaces for zbar_ros to use to publish results</description>
   <maintainer email="kenjibrameld@gmail.com">ijnek</maintainer>
   <license>BSD</license>
-  <author email="paul@bovbel.com">Paul Bovbel</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>rclcpp</depend>
-  <depend>zbar</depend>
-  <depend>cv_bridge</depend>
-  <depend>sensor_msgs</depend>
-  <depend>std_msgs</depend>
-
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
   <export>
     <build_type>ament_cmake</build_type>
