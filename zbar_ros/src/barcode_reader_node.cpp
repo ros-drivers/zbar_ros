@@ -90,7 +90,7 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
         geometry_msgs::msg::Point point;
         point.x = (*point_it).x;
         point.y = (*point_it).y;
-        RCLCPP_DEBUG(get_logger(), "  Point: %d, %d", point.x, point.y);
+        RCLCPP_DEBUG(get_logger(), "  Point: %f, %f", point.x, point.y);
         symbol.points.push_back(point);
       }
 
