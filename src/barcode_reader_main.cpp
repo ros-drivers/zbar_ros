@@ -35,7 +35,7 @@
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<BarcodeReaderNode>());
+  rclcpp::spin(std::make_shared<zbar_ros::BarcodeReaderNode>());
   rclcpp::shutdown();
   return 0;
 }
