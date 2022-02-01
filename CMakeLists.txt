@@ -1,38 +1,66 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(zbar_ros)
 
-find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge nodelet roslint)
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
 
-catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES barcode_reader_nodelet
-  CATKIN_DEPENDS nodelet cv_bridge roscpp
-)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# Find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+
+# Include header files
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-)
+  include)
 
-add_library(barcode_reader_nodelet src/barcode_reader_nodelet.cpp)
-target_link_libraries(barcode_reader_nodelet zbar ${catkin_LIBRARIES})
+# Build library
+add_library(barcode_reader_node src/barcode_reader_node.cpp)
+ament_target_dependencies(barcode_reader_node
+  rclcpp
+  sensor_msgs
+  std_msgs
+  cv_bridge)
+target_link_libraries(barcode_reader_node zbar)
 
-add_executable(barcode_reader_node src/barcode_reader_node.cpp)
-target_link_libraries(barcode_reader_node ${catkin_LIBRARIES})
+# Build executable
+add_executable(barcode_reader src/barcode_reader_main.cpp)
+target_link_libraries(barcode_reader barcode_reader_node)
 
-roslint_cpp()
+# Install
+install(TARGETS
+  barcode_reader
+  DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY include/
+  DESTINATION include/)
+install(
+  TARGETS barcode_reader_node
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
-install(TARGETS barcode_reader_node barcode_reader_nodelet
-	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+# Test
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
 
-install(DIRECTORY include/${PROJECT_NAME}/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+  # Skip copyright check, because the copyright used is not recognised by ament_copyright
+  set(ament_cmake_copyright_FOUND TRUE)
 
-install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+  ament_lint_auto_find_test_dependencies()
+endif()
 
-install(FILES nodelets.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+# Package
+ament_package()

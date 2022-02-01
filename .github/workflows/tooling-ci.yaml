@@ -8,15 +8,17 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-18.04
-            distro: melodic
           - os: ubuntu-20.04
-            distro: noetic
+            distro: foxy
+          - os: ubuntu-20.04
+            distro: galactic
+          - os: ubuntu-20.04
+            distro: rolling
     steps:
-      - uses: ros-tooling/setup-ros@v0.1
+      - uses: ros-tooling/setup-ros@v0.2
         with:
           required-ros-distributions: ${{ matrix.distro }}
-      - uses: ros-tooling/action-ros-ci@v0.1
+      - uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: zbar_ros
-          target-ros1-distro: ${{ matrix.distro }}
+          target-ros2-distro: ${{ matrix.distro }}
