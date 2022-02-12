@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.0 (2022-02-12)
+------------------
 * Port to ROS2
 * Update package.xml
 * Add LICENSE
