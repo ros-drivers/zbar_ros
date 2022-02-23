@@ -6,6 +6,7 @@
   <description>Lightweight ROS wrapper for Zbar barcode/qrcode reader library (http://zbar.sourceforge
     .net/)</description>
   <maintainer email="kenjibrameld@gmail.com">ijnek</maintainer>
+  <author email="paul@bovbel.com">Paul Bovbel</author>
   <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
