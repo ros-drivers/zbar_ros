@@ -128,13 +128,17 @@ namespace zbar_ros
   void BarcodeReaderNodelet::cleanCb()
   {
     const std::lock_guard<std::mutex> lock(memory_mutex_);
-    for (boost::unordered_map<std::string, ros::Time>::iterator it = barcode_memory_.begin();
-         it != barcode_memory_.end(); ++it)
+    boost::unordered_map<std::string, ros::Time>::iterator it = barcode_memory_.begin();
+    while (it != barcode_memory_.end())
     {
       if (ros::Time::now() > it->second)
       {
         NODELET_DEBUG_STREAM("Cleaned " << it->first << " from memory");
-        barcode_memory_.erase(it);
+        it = barcode_memory_.erase(it);
+      }
+      else
+      {
+        ++it;
       }
     }
   }
