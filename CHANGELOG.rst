@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.1 (2022-06-28)
+------------------
 * Fix iterator invalidation bug when cleaning the database of previously detected barcodes (`#14 <https://github.com/ros-drivers/zbar_ros/issues/14>`_)
 * Trigger CI
 * Add LICENSE
