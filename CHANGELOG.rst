@@ -2,6 +2,13 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix iterator invalidation bug when cleaning the database of previously detected barcodes (`#14 <https://github.com/ros-drivers/zbar_ros/issues/14>`_)
+* Trigger CI
+* Add LICENSE
+* Contributors: Paul Bovbel, Stephen Williams
+
 0.3.0 (2021-03-12)
 ------------------
 * Lint and close `#6 <https://github.com/ros-drivers/zbar_ros/issues/6>`_
