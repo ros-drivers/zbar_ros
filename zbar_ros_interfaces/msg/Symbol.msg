@@ -1,2 +1,2 @@
 string data
-geometry_msgs/Point[] points
+vision_msgs/Point2D[] points
