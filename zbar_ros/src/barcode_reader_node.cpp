@@ -133,9 +133,12 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
   static bool alreadyWarnedDeprecation = false;
   if (!alreadyWarnedDeprecation && count_subscribers("barcode") > 0) {
     alreadyWarnedDeprecation = true;
-    RCLCPP_WARN(get_logger(), "A subscription was detected on the deprecated 'barcode'"
-                              "topic. Please subscribe to the new 'symbol' topic with type"
-                              "'zbar_ros_interfaces::msg::Symbol'.");
+    RCLCPP_WARN(
+      get_logger(),
+      "A subscription was detected on the deprecated topic 'barcode'. Please update the node "
+      "that is subscribing to use the new topic 'symbol' with type "
+      "'zbar_ros_interfaces::msg::Symbol' instead. The 'barcode' topic will be removed "
+      "in the next distribution.");
   }
 
   zbar_image.set_data(NULL, 0);
