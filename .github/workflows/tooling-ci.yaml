@@ -12,13 +12,14 @@ jobs:
             distro: foxy
           - os: ubuntu-20.04
             distro: galactic
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
+            distro: humble
+          - os: ubuntu-22.04
             distro: rolling
     steps:
-      - uses: ros-tooling/setup-ros@v0.2
+      - uses: ros-tooling/setup-ros@v0.3
         with:
           required-ros-distributions: ${{ matrix.distro }}
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
-          package-name: zbar_ros
           target-ros2-distro: ${{ matrix.distro }}
