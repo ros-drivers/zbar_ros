@@ -52,8 +52,8 @@ Subscriptions:
 * `image` (`sensor_msgs/msg/Image`)
 
 Publisher:
-* `barcode` (`std_msgs/msg/String`) - **DEPRECATED**
 * `symbol` (`zbar_ros_interfaces/msg/Symbol`)
+* `barcode` (`std_msgs/msg/String`) - **DEPRECATED**
 
 
 ## Debugging the barcode_reader node
