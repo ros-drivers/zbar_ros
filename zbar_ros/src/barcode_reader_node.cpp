@@ -44,12 +44,11 @@ BarcodeReaderNode::BarcodeReaderNode()
 {
   scanner_.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
-
   camera_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
     "image", 10, std::bind(&BarcodeReaderNode::imageCb, this, std::placeholders::_1));
 
   barcode_pub_ = this->create_publisher<std_msgs::msg::String>("barcode", 10);
-  barcode_pub_ = this->create_publisher<zbar_ros_interfaces::msg::Symbol>("symbol", 10);
+  symbol_pub_ = this->create_publisher<zbar_ros_interfaces::msg::Symbol>("symbol", 10);
 
   throttle_ = this->declare_parameter<double>("throttle_repeated_barcodes", 0.0);
   RCLCPP_DEBUG(get_logger(), "throttle_repeated_barcodes : %f", throttle_);
@@ -77,7 +76,6 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
     // If there are barcodes in the image, iterate over all barcode readings from image
     for (zbar::Image::SymbolIterator symbol_it = it_start; symbol_it != it_end; ++symbol_it) {
       zbar_ros_interfaces::msg::Symbol symbol;
-
       symbol.data = symbol_it->get_data();
       RCLCPP_DEBUG(get_logger(), "Barcode detected with data: '%s'", symbol.data.c_str());
 
@@ -98,6 +96,7 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
       if (throttle_ > 0.0) {
         const std::lock_guard<std::mutex> lock(memory_mutex_);
 
+        std::string barcode = symbol.data;
         // check if barcode has been recorded as seen, and skip detection
         if (barcode_memory_.count(barcode) > 0) {
           // check if time reached to forget barcode
@@ -119,15 +118,24 @@ void BarcodeReaderNode::imageCb(sensor_msgs::msg::Image::ConstSharedPtr image)
       // publish barcode
       RCLCPP_DEBUG(get_logger(), "Publishing data as string");
       std_msgs::msg::String barcode_string;
-      barcode_string.data = barcode;
+      barcode_string.data = symbol.data;
       barcode_pub_->publish(barcode_string);
 
       // publish symbol
       RCLCPP_DEBUG(get_logger(), "Publishing Symbol");
-      barcode_pub_->publish(symbol);
+      symbol_pub_->publish(symbol);
     }
   } else {
     RCLCPP_DEBUG(get_logger(), "No barcode detected in image");
+  }
+
+  // Warn if there are subscriptions on barcode topic, because it's deprecated.
+  static bool alreadyWarnedDeprecation = false;
+  if (!alreadyWarnedDeprecation && count_subscribers("barcode") > 0) {
+    alreadyWarnedDeprecation = true;
+    RCLCPP_WARN(get_logger(), "A subscription was detected on the deprecated 'barcode'"
+                              "topic. Please subscribe to the new 'symbol' topic with type"
+                              "'zbar_ros_interfaces::msg::Symbol'.");
   }
 
   zbar_image.set_data(NULL, 0);

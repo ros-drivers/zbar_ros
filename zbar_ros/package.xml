@@ -15,6 +15,7 @@
   <depend>zbar</depend>
   <depend>cv_bridge</depend>
   <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
   <depend>zbar_ros_interfaces</depend>
 
   <test_depend>ament_lint_auto</test_depend>
