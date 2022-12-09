@@ -1,46 +1,61 @@
-# README #
+# Zbar ROS
 
 Basic ROS2 wrapper for the zbar (http://zbar.sourceforge.net/) barcode reader library. Reads image stream from `image` topic, and outputs detected barcodes to `barcode` topic. Works with 1D and 2D barcodes.
 
-## Install Dependencies
+![Usage](images/usage.gif)
 
-To install the dependencies, run:
+## Installation
 
+### Binary Installation
+
+To perform a binary installation, source your ROS 2 installation, then simply run:
+
+```sh
+sudo apt install ros-${ROS_DISTRO}-zbar-ros
 ```
+
+### Source Installation (Alternative)
+
+Alternatively, you can build from source.
+
+Make sure you are in a ROS 2 workspace.
+Clone this repository into your workspace's ``src`` directory by running:
+
+```sh
+git clone git@github.com:ros-drivers/zbar_ros.git src/zbar_ros
+```
+
+Install the dependencies using rosdep:
+
+```sh
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
+Build the package:
 
-If you see `sudo: rosdep: command not found`, [install rosdep](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Binary.html#installing-and-initializing-rosdep) first and rerun the command above.
-
-## Build zbar_ros
-
-In your workspace, run:
-
-```
+```sh
 colcon build
 ```
 
-
-## Running barcode_reader node
+## Usage
 
 You have to source your workspace, then run the node. In your workspace, run:
 
 ```
-. install/local_setup.bash
+source install/local_setup.bash
 ros2 run zbar_ros barcode_reader
 ```
 
 ### Topics
 
 Subscriptions:
-* `image` (`sensor_msgs/msg/Image.msg`)
+* `image` (`sensor_msgs/msg/Image`)
 
 Publisher:
-* `barcode` (`std_msgs/msg/String.msg`)
+* `barcode` (`std_msgs/msg/String`)
 
 
-### (Optional) Debugging the barcode_reader node
+## Debugging the barcode_reader node
 
 To debug whether the node is
 * receiving msgs on `image`
