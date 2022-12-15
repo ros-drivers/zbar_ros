@@ -10,8 +10,6 @@ jobs:
         include:
           - os: ubuntu-20.04
             distro: foxy
-          - os: ubuntu-20.04
-            distro: galactic
           - os: ubuntu-22.04
             distro: humble
           - os: ubuntu-22.04
