@@ -1,0 +1,27 @@
+name: Build and Test (foxy)
+
+on:
+  # Triggers the workflow on push
+  push:
+    branches: [ foxy ]
+
+  # Triggers the workflow on pull requests
+  pull_request:
+    branches: [ foxy ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:focal
+
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          use-ros2-testing: true
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          target-ros2-distro: foxy
