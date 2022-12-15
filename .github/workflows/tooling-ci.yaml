@@ -1,6 +1,10 @@
 name: ci
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ ${{ matrix.branch }} ]
+  pull_request:
+    branches: [ ${{ matrix.branch }} ]
 
 jobs:
   ci:
@@ -10,10 +14,13 @@ jobs:
         include:
           - os: ubuntu-20.04
             distro: foxy
+            branch: foxy
           - os: ubuntu-22.04
             distro: humble
+            branch: humble
           - os: ubuntu-22.04
             distro: rolling
+            branch: ros2
     steps:
       - uses: ros-tooling/setup-ros@v0.3
         with:
