@@ -1,9 +1,8 @@
 # Zbar ROS
 
-[![Build and Test (foxy)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_foxy.yaml/badge.svg?branch=foxy)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_foxy.yaml?query=branch:foxy)
-[![Build and Test (humble)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_humble.yaml/badge.svg?branch=humble)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_humble.yaml?query=branch:humble)
-[![Build and Test (iron)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_iron.yaml/badge.svg?branch=iron)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_iron.yaml?query=branch:iron)
-[![Build and Test (rolling)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_rolling.yaml/badge.svg?branch=ros2)](https://github.com/ros-sports/nao_lola/actions/workflows/build_and_test_rolling.yaml?query=branch:ros2)
+[![Build and Test (humble)](../../actions/workflows/build_and_test_humble.yaml/badge.svg?branch=humble)](../../actions/workflows/build_and_test_humble.yaml?query=branch:humble)
+[![Build and Test (iron)](../../actions/workflows/build_and_test_iron.yaml/badge.svg?branch=iron)](../../actions/workflows/build_and_test_iron.yaml?query=branch:iron)
+[![Build and Test (rolling)](../../actions/workflows/build_and_test_rolling.yaml/badge.svg?branch=ros2)](../../actions/workflows/build_and_test_rolling.yaml?query=branch:ros2)
 
 Basic ROS2 wrapper for the zbar (http://zbar.sourceforge.net/) barcode reader library. Reads image stream from `image` topic, and outputs detected barcodes to `barcode` topic. Works with 1D and 2D barcodes.
 
