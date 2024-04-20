@@ -2,8 +2,8 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.0 (2024-04-20)
+------------------
 * Add new Symbol.msg, with more polygon Info obtained from zbar (`#11 <https://github.com/ros-drivers/zbar_ros/issues/11>`_)
 * Deprecate barcode topic (`#11 <https://github.com/ros-drivers/zbar_ros/issues/11>`_)
 * Contributors: Kenji Brameld
