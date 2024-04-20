@@ -19,7 +19,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(std_msgs REQUIRED)
+find_package(zbar_ros_interfaces REQUIRED)
 find_package(cv_bridge REQUIRED)
 
 # Include header files
@@ -32,7 +32,8 @@ ament_target_dependencies(barcode_reader_node
   rclcpp
   sensor_msgs
   std_msgs
-  cv_bridge)
+  cv_bridge
+  zbar_ros_interfaces)
 target_link_libraries(barcode_reader_node zbar)
 
 # Build executable
