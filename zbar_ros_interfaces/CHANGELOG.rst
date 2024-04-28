@@ -2,6 +2,9 @@
 Changelog for package zbar_ros_interfaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.6.0 (2024-04-20)
 ------------------
 * Add Polygon Info obtained from zbar (`#11 <https://github.com/ros-drivers/zbar_ros/issues/11>`_)
