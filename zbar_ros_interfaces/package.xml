@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>zbar_ros_interfaces</name>
-  <version>0.6.0</version>
+  <version>0.7.0</version>
   <description>Package containing interfaces for zbar_ros to use to publish results</description>
   <maintainer email="kenjibrameld@gmail.com">ijnek</maintainer>
   <license>BSD</license>
