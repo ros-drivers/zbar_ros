@@ -2,6 +2,15 @@
 Changelog for package zbar_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add iron CI (`#28 <https://github.com/ros-drivers/zbar_ros/issues/28>`_)
+* Remove usage of deprecated cv_bridge header file (`#19 <https://github.com/ros-drivers/zbar_ros/issues/19>`_)
+* Switch to CI from ros-tooling (`#27 <https://github.com/ros-drivers/zbar_ros/issues/27>`_)
+* Improve README (`#17 <https://github.com/ros-drivers/zbar_ros/issues/17>`_)
+* Update authors and maintainers of package (`#13 <https://github.com/ros-drivers/zbar_ros/issues/13>`_)
+* Contributors: Kenji Brameld
+
 0.4.0 (2022-02-12)
 ------------------
 * Port to ROS2
