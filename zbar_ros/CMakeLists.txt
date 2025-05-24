@@ -28,13 +28,15 @@ include_directories(
 
 # Build library
 add_library(barcode_reader_node src/barcode_reader_node.cpp)
-ament_target_dependencies(barcode_reader_node
-  rclcpp
-  sensor_msgs
-  std_msgs
-  cv_bridge
-  zbar_ros_interfaces)
-target_link_libraries(barcode_reader_node zbar)
+target_link_libraries(barcode_reader_node PUBLIC
+  ${sensor_msgs_TARGETS}
+  ${std_msgs_TARGETS}
+  ${zbar_ros_interfaces_TARGETS}
+  cv_bridge::cv_bridge
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs_library
+  zbar
+)
 
 # Build executable
 add_executable(barcode_reader src/barcode_reader_main.cpp)
