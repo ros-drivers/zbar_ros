@@ -22,12 +22,30 @@ find_package(sensor_msgs REQUIRED)
 find_package(zbar_ros_interfaces REQUIRED)
 find_package(cv_bridge REQUIRED)
 
-# Include header files
-include_directories(
-  include)
+# Find zbar library
+find_library(ZBAR_LIBRARY
+  NAMES zbar
+)
+
+find_path(ZBAR_INCLUDE_DIR
+  NAMES zbar.h
+)
+
+if(NOT ZBAR_LIBRARY)
+  message(FATAL_ERROR "zbar library not found. Please install libzbar-dev")
+endif()
+
+if(NOT ZBAR_INCLUDE_DIR)
+  message(FATAL_ERROR "zbar.h not found. Please install libzbar-dev")
+endif()
+
 
 # Build library
 add_library(barcode_reader_node src/barcode_reader_node.cpp)
+target_include_directories(barcode_reader_node PUBLIC
+  ${ZBAR_INCLUDE_DIR}
+  include
+)
 target_link_libraries(barcode_reader_node PUBLIC
   ${sensor_msgs_TARGETS}
   ${std_msgs_TARGETS}
@@ -35,7 +53,7 @@ target_link_libraries(barcode_reader_node PUBLIC
   cv_bridge::cv_bridge
   rclcpp::rclcpp
   sensor_msgs::sensor_msgs_library
-  zbar
+  ${ZBAR_LIBRARY}
 )
 
 # Build executable

@@ -31,11 +31,13 @@
 #ifndef ZBAR_ROS__BARCODE_READER_NODE_HPP_
 #define ZBAR_ROS__BARCODE_READER_NODE_HPP_
 
+#include <zbar.h>
+
 #include <string>
 #include <unordered_map>
+
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp/timer.hpp"
-#include "./zbar.h"
 #include "sensor_msgs/msg/image.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "zbar_ros_interfaces/msg/symbol.hpp"
